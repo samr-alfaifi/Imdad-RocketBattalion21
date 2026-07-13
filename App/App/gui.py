@@ -31,13 +31,41 @@ def add_sidebar_button(text):
     return btn
 
 btn_weapons = add_sidebar_button("الأسلحة")
+btn_weapons.config(command=show_weapons)
 btn_vehicles = add_sidebar_button("المركبات")
 btn_units = add_sidebar_button("الأقسام")
 btn_reports = add_sidebar_button("التقارير")
 btn_settings = add_sidebar_button("الإعدادات")
 
 # -----------------------------
-# منطقة المحتوى (Main Panel)
+def show_weapons():
+    # تنظيف منطقة المحتوى
+    for widget in main_panel.winfo_children():
+        widget.destroy()
+
+    # عنوان الشاشة
+    title = tk.Label(main_panel, text="قائمة الأسلحة", fg="white", bg="#1e1e1e", font=("Arial", 20))
+    title.pack(pady=20)
+
+    # جدول الأسلحة
+    columns = ("name", "caliber", "quantity")
+    table = ttk.Treeview(main_panel, columns=columns, show="headings", height=10)
+
+    table.heading("name", text="اسم السلاح")
+    table.heading("caliber", text="العيار")
+    table.heading("quantity", text="الكمية")
+
+    table.pack(pady=10)
+
+    # بيانات تجريبية
+    sample_data = [
+        ("قاذف صواريخ", "122mm", 12),
+        ("مدفع هاوتزر", "155mm", 5),
+        ("رشاش ثقيل", "12.7mm", 20)
+    ]
+
+    for item in sample_data:
+        table.insert("", "end", values=item)
 # -----------------------------
 main_panel = tk.Frame(window, bg="#1e1e1e")
 main_panel.pack(fill="both", expand=True)
